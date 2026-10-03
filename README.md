@@ -28,7 +28,7 @@ Precisa do [Claude Code](https://claude.com/claude-code) instalado e de internet
 1. No Claude Code, rode os dois comandos:
 
    ```
-   /plugin marketplace add papuxa-maker/calculadora-judicial
+   /plugin marketplace add papuxa-maker/calculadorajudicial
    /plugin install calculadora-judicial@calculadora-judicial
    ```
 
