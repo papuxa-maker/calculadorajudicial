@@ -68,7 +68,9 @@ TABELAS_TRIBUNAIS = [
                    "https://www.tjdft.jus.br/servicos/atualizacao-monetaria-1/indices-da-contadoria"),
     TabelaTribunal("TJMA", IPCR_INPC_IPCA, TEXTO_IPCR_INPC_IPCA, "Prov. CGJ/MA 3/2026, art. 4º, VI (tabela do ENCOGE)",
                    "https://www.tjma.jus.br/atualizacao-monetaria/tj"),
-    TabelaTribunal("TJMG", IPCR_INPC_IPCA, TEXTO_IPCR_INPC_IPCA, "fator de atualização monetária da CGJ-MG (INPC)",
+    # a tabela da CGJ-MG continua no INPC depois de 08/2024 (comunicado mensal no DJe; o IPCA fica "a critério de
+    # cada julgador"): conferido com a tabela oficial de set/2026 nos casos-ouro tj_mg_fator_*
+    TabelaTribunal("TJMG", IPCR_INPC, TEXTO_IPCR_INPC, "fator de atualização monetária da CGJ-MG (comunicado mensal no DJe)",
                    "https://www.tjmg.jus.br/portal-tjmg/processos/indicadores/fator-de-atualizacao-monetaria.htm"),
     TabelaTribunal("TJMT", IPCR_INPC_IPCA, TEXTO_IPCR_INPC_IPCA, "tabela adotada pela CGJ-MT (Ofício Circular 123/97-CGJ)",
                    "https://corregedoria.tjmt.jus.br/pagina/208"),

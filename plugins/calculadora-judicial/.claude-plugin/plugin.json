@@ -1,6 +1,6 @@
 {
   "name": "calculadora-judicial",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Calculadora judicial brasileira: atualização de débitos (cível, trabalhista, tributário federal e Fazenda Pública) com correção, juros, multas e honorários, cortes legais automáticos e memória de cálculo em PDF e Excel.",
   "author": {
     "name": "papuxa-maker",

@@ -198,8 +198,8 @@ números à mão) e mostre ao advogado as primeiras e as últimas linhas. Depois
    código novo (ex.: `TJMG_OFICIAL`) se o arquivo não cobrir desde 1994;
 2. mostre o resultado do ensaio ao advogado e, com o ok dele, `importar ARQUIVO --codigo TJXX --gravar
    --nome "Tabela do TJXX (oficial, mês/ano)" --fonte "TJXX, Corregedoria"` (e as mesmas opções do ensaio);
-3. use `"indice_correcao_civel": "TJXX"` no pedido. Com os cortes automáticos, a tabela vale até 29/08/2024 e
-   depois entra IPCA + taxa legal (Lei 14.905); se o juiz mandou usar a tabela no período todo, use os períodos do
+3. use `"indice_correcao_civel": "TJXX"` no pedido. Com os cortes automáticos, a tabela vale até 08/2024 (com
+   pró-rata, até 29/08/2024) e depois entra IPCA + taxa legal (Lei 14.905); se o juiz mandou usar a tabela no período todo, use os períodos do
    título com `"indice_correcao": "TJXX"`. (Limite: nos períodos do título, a tabela do TJSC conta agosto/2024
    inteiro no IPCA; para dividir o mês, ponha um período até 29/08/2024 e outro desde 30/08/2024.)
 Tabela só em PDF: extraia o texto com um script e confira a contagem de meses e os valores de alguns meses com

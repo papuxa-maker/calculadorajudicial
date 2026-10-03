@@ -436,13 +436,16 @@ def _saude(porta: int) -> bool:
 def _linha_de_comando(pid: int) -> str:
     """Linha de comando do processo (para nunca encerrar outro programa com o mesmo número)."""
     try:
+        # saída sempre em UTF-8: caminhos com acento ("Área de Trabalho") quebravam a leitura na página de código do Windows
         if os.name == "nt":
             r = subprocess.run(["powershell", "-NoProfile", "-Command",
+                                "[Console]::OutputEncoding = [Text.Encoding]::UTF8; "
                                 f"(Get-CimInstance Win32_Process -Filter 'ProcessId={int(pid)}').CommandLine"],
-                               capture_output=True, text=True, timeout=20)
+                               capture_output=True, encoding="utf-8", errors="replace", timeout=20)
         else:
-            r = subprocess.run(["ps", "-o", "command=", "-p", str(int(pid))], capture_output=True, text=True, timeout=10)
-        return r.stdout.strip()
+            r = subprocess.run(["ps", "-o", "command=", "-p", str(int(pid))], capture_output=True, encoding="utf-8",
+                               errors="replace", timeout=10)
+        return (r.stdout or "").strip()
     except (OSError, subprocess.SubprocessError, ValueError):
         return ""
 

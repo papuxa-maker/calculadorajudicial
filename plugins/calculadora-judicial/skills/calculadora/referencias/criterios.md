@@ -27,7 +27,7 @@ ou os tribunais admitem mais de um caminho. Todas as escolhas aparecem na memór
 | --- | --- | --- |
 | `juros_fixados_no_titulo` | `false` | `true` quando o título fixou os juros de 1% a.m. (a memória diz isso e não traz o aviso do Tema 1.368) |
 | `juros_civel_pre_14905` | `um_por_cento` | `selic_tema_1368` — STJ, Tema 1.368 (29/10/2025): título omisso → SELIC antes da Lei 14.905. **Pergunte o que o título diz.** |
-| `indice_correcao_civel` | `TJGO` | a sigla do tribunal (`TJMG`, `TJSC`, `TJDFT`... — lista no comando `tabelas`), `TJSP`, `INPC`, `IPCA`, `IPCA_E`, `IPCA_15`, `IGPM`, `JF` (tabela da Justiça Federal), `JF_PREV`, ou o código de uma tabela importada — use o que o título ou o tribunal manda. TJGO = INPC até 29/08/2024 (Prov. CGJ-GO 06/2019) e IPCA depois, montada pela calculadora com os índices do Banco Central (não é a tabela publicada pelo tribunal). |
+| `indice_correcao_civel` | `TJGO` | a sigla do tribunal (`TJMG`, `TJSC`, `TJDFT`... — lista no comando `tabelas`), `TJSP`, `INPC`, `IPCA`, `IPCA_E`, `IPCA_15`, `IGPM`, `JF` (tabela da Justiça Federal), `JF_PREV`, ou o código de uma tabela importada — use o que o título ou o tribunal manda. TJGO = INPC até 08/2024 (Prov. CGJ-GO 06/2019) e IPCA desde 09/2024, montada pela calculadora com os índices do Banco Central (não é a tabela publicada pelo tribunal). |
 | `indice_correcao_pos_14905` | `IPCA` | `IPCA_15` (usado pelo TJSP e pelo CJF) |
 | `responsabilidade` | `contratual` | `extracontratual` (ato ilícito: juros do evento) |
 | `termo_inicial_juros` | padrão da área | `citacao`, `vencimento` (dívida líquida e com termo: mora ex re, CC, art. 397), `evento`, `transito` — quando o título fixar ou a dívida tiver vencimento certo |
