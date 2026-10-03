@@ -1,0 +1,23 @@
+{
+  "$schema": "https://code.claude.com/schemas/marketplace.json",
+  "name": "calculadora-judicial",
+  "description": "Calculadora judicial para advogados (plugin do Claude Code)",
+  "owner": {
+    "name": "papuxa-maker"
+  },
+  "plugins": [
+    {
+      "name": "calculadora-judicial",
+      "source": "./plugins/calculadora-judicial",
+      "description": "Calculadora judicial brasileira: atualização de débitos (cível, trabalhista, tributário federal e Fazenda Pública) com correção, juros, multas e honorários, cortes legais automáticos e memória de cálculo em PDF e Excel.",
+      "category": "juridico",
+      "tags": [
+        "calculo-judicial",
+        "liquidacao",
+        "correcao-monetaria",
+        "juros",
+        "brasil"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "name": "calculadora-judicial",
+  "version": "0.1.0",
+  "description": "Calculadora judicial brasileira: atualização de débitos (cível, trabalhista, tributário federal e Fazenda Pública) com correção, juros, multas e honorários, cortes legais automáticos e memória de cálculo em PDF e Excel.",
+  "author": {
+    "name": "papuxa-maker",
+    "url": "https://github.com/papuxa-maker"
+  },
+  "repository": "https://github.com/papuxa-maker/calculadora-judicial",
+  "keywords": [
+    "calculo judicial",
+    "liquidacao de sentenca",
+    "correcao monetaria",
+    "juros de mora",
+    "lei 14.905"
+  ],
+  "license": "MIT"
+}
