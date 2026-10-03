@@ -39,6 +39,7 @@ ou os tribunais admitem mais de um caminho. Todas as escolhas aparecem na memór
 | `capitalizacao_selic` | `simples` | `composta` |
 | `selic_como` | `juros` | `correcao` (não aceita pagamentos nem arredondamento CJF) |
 | `base_multa_523` | `decurso` | `data_calculo` |
+| `custas_na_base_523` | `true` (custas entram na base da multa e dos honorários do art. 523 — STJ, REsp 1.757.033) | `false`, quando o juiz excluiu as custas da base |
 | `imputacao` | `juros_primeiro` | `capital_primeiro`, `proporcional` |
 | `arredondamento` | `exato` | `cjf`: truncamentos do Manual de Cálculos da JF (bate no centavo com os exemplos do Manual) |
 | `preservar_valor_nominal` | `true` | `false` (deflação reduz o principal) |

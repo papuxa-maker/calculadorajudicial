@@ -168,6 +168,19 @@ def honorarios_cumprimento_cabiveis(area: str, houve_impugnacao: bool) -> tuple[
     return True, "CPC, art. 523, §1º; base sem a multa (STJ, REsp 1.757.033)"
 
 
+def entra_na_base_523(natureza: str, custas_na_base: bool) -> bool:
+    """A parcela entra na base da multa e dos honorários de 10% do art. 523, §1º, do CPC?
+
+    Padrão: STJ, REsp 1.757.033/DF (3ª T., Rel. Min. Ricardo Villas Bôas Cueva, 09/10/2018) — a base é "o valor da
+    dívida (quantia fixada em sentença ou na liquidação), acrescido das custas processuais, se houver, sem a inclusão
+    da multa de 10%". Com ``custas_na_base=False`` as custas ficam fora, quando o juízo lê o art. 523 ao pé da letra
+    (o caput manda pagar "o débito, acrescido de custas"; o §1º acresce multa e honorários ao "débito"), como na
+    decisão do caso-ouro ``civel_real_tjdft_tema1368_lei14905``. Principal, dano moral e honorários fixados no
+    título entram sempre.
+    """
+    return natureza != "custas" or custas_na_base
+
+
 def multa_523(debito: Decimal) -> Decimal:
     """Multa de 10% do art. 523, §1º, do CPC sobre o débito não pago no prazo de 15 dias úteis.
 

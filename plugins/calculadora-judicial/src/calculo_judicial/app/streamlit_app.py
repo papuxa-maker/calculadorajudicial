@@ -77,6 +77,7 @@ PADROES = {
     "f_indice_pos": "IPCA", "f_juros_pre": "um_por_cento", "f_cap_selic": "simples", "f_selic_como": "juros",
     "f_trab_pre_corte": True, "f_fazenda_regime": "selic", "f_indice_fazenda": "IPCA_E", "f_preservar_nominal": True,
     "f_impugnacao": False, "f_permitir_projecao": False, "f_base_523": "decurso", "f_arredondamento": "exato",
+    "f_custas_523": True,
 }
 # campos que um perfil redefine (SPEC, seção 7: "escolher um preenche todos os campos abaixo"); ficam de fora os
 # fatos do processo (partes, datas, parcelas, abatimentos, multa contratual e honorários fixados no título)
@@ -84,7 +85,7 @@ CAMPOS_CRITERIO = [
     "f_pro_rata", "f_editar_periodos", "f_multa_523", "f_honorarios_cumprimento", "f_imputacao", "f_responsabilidade",
     "f_termo_inicial_juros", "f_indice_civel", "f_indice_pos", "f_juros_pre", "f_cap_selic", "f_selic_como",
     "f_trab_pre_corte", "f_fazenda_regime", "f_indice_fazenda", "f_preservar_nominal", "f_impugnacao",
-    "f_permitir_projecao", "f_base_523", "f_arredondamento",
+    "f_permitir_projecao", "f_base_523", "f_arredondamento", "f_custas_523",
 ]
 
 MAPA_PARAMETROS = {
@@ -95,6 +96,7 @@ MAPA_PARAMETROS = {
     "fazenda_regime_pos_ec136": "f_fazenda_regime", "indice_correcao_fazenda": "f_indice_fazenda",
     "preservar_valor_nominal": "f_preservar_nominal", "houve_impugnacao": "f_impugnacao",
     "permitir_projecao": "f_permitir_projecao", "base_multa_523": "f_base_523", "arredondamento": "f_arredondamento",
+    "custas_na_base_523": "f_custas_523",
     "data_citacao": "f_data_citacao", "data_ajuizamento": "f_data_ajuizamento", "data_transito": "f_data_transito",
     "data_intimacao": "f_data_intimacao", "data_decurso_523": "f_data_decurso_523", "data_calculo": "f_data_calculo",
 }
@@ -109,7 +111,7 @@ ROTULOS_DATA = {
 # parâmetros que não mudam os períodos gerados pelas regras (só o cálculo sobre eles)
 CAMPOS_FORA_DOS_PERIODOS = {
     "abatimentos", "multa_contratual_pct", "honorarios_pct", "honorarios_fixos", "multa_523", "honorarios_cumprimento",
-    "imputacao", "base_multa_523", "houve_impugnacao", "arredondamento", "permitir_projecao", "data_calculo",
+    "imputacao", "base_multa_523", "custas_na_base_523", "houve_impugnacao", "arredondamento", "permitir_projecao", "data_calculo",
     "data_intimacao", "data_decurso_523", "aplicar_cortes_legais", "preservar_valor_nominal", "pro_rata",
 }
 LOG_ERROS = coletor_bcb.PASTA_DADOS / "log" / "interface_erros.log"
@@ -657,6 +659,7 @@ def tela_novo_calculo() -> None:
     x1.checkbox("Multa de 10% do art. 523", key="f_multa_523")
     x2.checkbox("Honorários de 10% do cumprimento", key="f_honorarios_cumprimento")
     x3.selectbox("Base da multa/honorários do 523", list(NOMES_BASE_523), format_func=NOMES_BASE_523.get, key="f_base_523")
+    x3.checkbox("Custas na base da multa/honorários do 523 (STJ, REsp 1.757.033)", key="f_custas_523")
     x1.text_input("Multa contratual (% sobre principal corrigido + juros)", key="f_multa_contratual")
     x2.radio("Honorários de sucumbência", ["nenhum", "percentual", "fixo"], key="f_honorarios_modo", horizontal=True)
     if s["f_honorarios_modo"] == "percentual":

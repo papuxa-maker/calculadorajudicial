@@ -273,6 +273,7 @@ DESCRICOES = {
     "data_intimacao": "Intimação para pagamento (art. 523)",
     "data_decurso_523": "Fim do prazo de 15 dias úteis (art. 523)",
     "base_multa_523": "Base da multa/honorários do art. 523",
+    "custas_na_base_523": "Custas na base da multa/honorários do art. 523 (STJ, REsp 1.757.033)",
     "responsabilidade": "Responsabilidade",
     "termo_inicial_juros": "Termo inicial dos juros",
     "indice_correcao_civel": "Índice de correção cível até 29/08/2024",
@@ -381,6 +382,8 @@ def _parametros_que_pesam(params: Parametros, parcelas=(), periodos=()) -> set[s
             nomes.add("houve_impugnacao")
         if params.base_multa_523 == "decurso":  # índice que atualiza a base nos períodos de SELIC
             nomes.add("indice_correcao_civel" if params.area == "civel" else "indice_correcao_fazenda")
+        if any(x.natureza == "custas" for x in parcelas):
+            nomes.add("custas_na_base_523")
     padrao = Parametros(area=params.area, data_calculo=params.data_calculo)
     nomes |= {f.name for f in dataclasses.fields(params) if getattr(params, f.name) != getattr(padrao, f.name)}
     return nomes
@@ -576,7 +579,7 @@ def calcular(parcelas: list[Parcela], parametros: Parametros, repositorio_indice
                 f"({formatar_brl(base_acessorios)}): os pagamentos quitam juros e capital do credor, não os honorários"
             )
         if decurso is not None:
-            _acessorios_523(params, decurso, retrato, simuladores, base_condenacao, outros, ac, avisos)
+            _acessorios_523(params, decurso, retrato, simuladores, memorias, ac, avisos)
 
         total_parcelas = base_condenacao + outros
         total = q10(total_parcelas + ac.multa_contratual + ac.honorarios_sucumbencia + ac.multa_523 + ac.honorarios_cumprimento)
@@ -638,8 +641,14 @@ def indice_correcao_pura(params: Parametros) -> str:
     return params.indice_correcao_fazenda
 
 
-def _acessorios_523(params, decurso, retrato, simuladores, base_condenacao, outros, ac: Acessorios, avisos) -> None:
+def _acessorios_523(params, decurso, retrato, simuladores, memorias, ac: Acessorios, avisos) -> None:
     """Multa de 10% e honorários de 10% do art. 523, §1º, do CPC."""
+    def na_base(parcela) -> bool:
+        return acessorios.entra_na_base_523(parcela.natureza, params.custas_na_base_523)
+
+    tem_custas = any(m.parcela.natureza == "custas" for m in memorias)
+    nota_custas = ("" if not tem_custas else " (com as custas — STJ, REsp 1.757.033)" if params.custas_na_base_523
+                   else " (sem as custas, por critério do cálculo)")
     aplica_multa = False
     if params.multa_523:
         aplica_multa, razao = acessorios.multa_523_cabivel(params.area)
@@ -656,7 +665,7 @@ def _acessorios_523(params, decurso, retrato, simuladores, base_condenacao, outr
         avisos.append(f"Prazo do art. 523 termina em {formatar_data(decurso)}, não antes da data do cálculo: multa/honorários ainda não incidem")
         return
     if params.base_multa_523 == "decurso":
-        saldos = retrato.get("saldos", [])
+        saldos = [(s, v) for s, v in retrato.get("saldos", []) if na_base(s.parcela)]
         condenacao_d = _soma(v for s, v in saldos if s.parcela.natureza in NATUREZAS_CONDENACAO)
         outros_d = _soma(v for s, v in saldos if s.parcela.natureza not in NATUREZAS_CONDENACAO)
         base_acessorios_d = retrato.get("condenacao_bruta", condenacao_d)
@@ -674,7 +683,7 @@ def _acessorios_523(params, decurso, retrato, simuladores, base_condenacao, outr
         ac.fator_atualizacao_523 = fator
         base = q10(debito_d * fator)
         ac.detalhes.append(
-            f"Art. 523: débito de {formatar_brl(debito_d)} em {formatar_data(decurso)} (fim do prazo), atualizado até "
+            f"Art. 523: débito{nota_custas} de {formatar_brl(debito_d)} em {formatar_data(decurso)} (fim do prazo), atualizado até "
             f"{formatar_data(params.data_calculo)} só pela correção, sem juros ("
             + (f"nos períodos de SELIC, pelo índice {nome_curto(indice_puro)}; " if any(
                 p.periodo.tipo_juros == "embutido" for s, _ in saldos for p in s.periodos) else "")
@@ -682,11 +691,11 @@ def _acessorios_523(params, decurso, retrato, simuladores, base_condenacao, outr
             f"{formatar_brl(base)}" + (" — a deflação do período reduziu a base" if fator < 1 else "")
         )
     else:
-        base = q10(base_condenacao + outros + ac.multa_contratual + ac.honorarios_sucumbencia)
+        base = q10(_soma(m.total for m in memorias if na_base(m.parcela)) + ac.multa_contratual + ac.honorarios_sucumbencia)
         ac.data_base_523 = params.data_calculo
         ac.debito_base_523 = base
         ac.fator_atualizacao_523 = Decimal(1)
-        ac.detalhes.append(f"Art. 523: débito na data do cálculo = {formatar_brl(base)}")
+        ac.detalhes.append(f"Art. 523: débito{nota_custas} na data do cálculo = {formatar_brl(base)}")
     if aplica_multa:
         ac.multa_523 = acessorios.multa_523(base)
         ac.detalhes.append(f"Multa de 10% (CPC, art. 523, §1º): 10% × {formatar_brl(base)} = {formatar_brl(ac.multa_523)}")

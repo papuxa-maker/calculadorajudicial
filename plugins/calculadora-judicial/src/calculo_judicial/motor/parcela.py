@@ -94,6 +94,7 @@ class Parametros:
     data_intimacao: date | None = None  # intimação para pagamento (art. 523 CPC)
     data_decurso_523: date | None = None  # último dia dos 15 dias úteis; se vazio, estimado a partir da intimação
     base_multa_523: str = "decurso"  # 'decurso' (SPEC: débito na data do decurso) | 'data_calculo'
+    custas_na_base_523: bool = True  # STJ, REsp 1.757.033: custas entram na base da multa/honorários do art. 523
     responsabilidade: str = "contratual"  # cível: 'contratual' (juros da citação) | 'extracontratual' (do evento)
     termo_inicial_juros: str | None = None  # cível, sobrepõe o padrão: 'citacao'|'vencimento'|'evento'|'transito'
     indice_correcao_civel: str = "TJGO"  # cível até 29/08/2024 (SPEC: padrão TJGO)

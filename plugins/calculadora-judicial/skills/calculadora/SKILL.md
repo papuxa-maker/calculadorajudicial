@@ -165,7 +165,8 @@ outra pasta: `configurar --pasta-saida "C:\...\Cálculos"` (vale para os próxim
 - **Tributário:** SELIC por soma simples das taxas mensais (Receita/Manual CJF) + 1% no mês do cálculo;
   alternativa `capitalizacao_selic: "composta"` só se o título mandar.
 - **Cumprimento (art. 523):** a multa e os honorários incidem sobre o débito no fim do prazo, atualizado só
-  pela correção (padrão) ou sobre o débito na data do cálculo (`base_multa_523: "data_calculo"`).
+  pela correção (padrão) ou sobre o débito na data do cálculo (`base_multa_523: "data_calculo"`). Com custas
+  no cálculo, elas entram na base (STJ, REsp 1.757.033); se o juiz as excluiu, use `custas_na_base_523: false`.
 - **Termo inicial dos juros, responsabilidade contratual/extracontratual e dano moral** (Súmulas 54 e 362).
 - **Pró-rata** (`pro_rata`): sem ele, o mês do vencimento e o da virada de regime contam inteiros. Em
   cálculos curtos ou com datas no meio do mês, mencione a alternativa (dias corridos nos meses das pontas).

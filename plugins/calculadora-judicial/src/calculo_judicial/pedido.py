@@ -83,6 +83,8 @@ CRITERIOS = {
     "base_multa_523": (("decurso", "data_calculo"), "Base da multa/honorários do art. 523", {
         "decurso": "débito no fim do prazo (com os juros até lá), atualizado só pela correção até a data do cálculo",
         "data_calculo": "débito na data do cálculo"}),
+    "custas_na_base_523": (bool, "Custas na base da multa/honorários do art. 523 (padrão sim: STJ, REsp 1.757.033; "
+                                 "não, se o juízo excluiu)", {}),
     "arredondamento": (("exato", "cjf"), "Arredondamento", {"exato": "exato (10 casas)", "cjf": "truncamentos do Manual CJF"}),
     "imputacao": (IMPUTACOES, "Imputação dos pagamentos", {"juros_primeiro": "juros primeiro (CC, art. 354)",
                                                            "capital_primeiro": "capital primeiro",
@@ -305,6 +307,8 @@ def criterios_da_conferencia(p: Parametros, padrao: Parametros, parcelas=(), man
         sempre.add("base_multa_523")
         if p.base_multa_523 == "decurso":  # índice que atualiza a base nos períodos de SELIC
             sempre.add("indice_correcao_civel" if p.area == "civel" else "indice_correcao_fazenda")
+        if any(x.natureza == "custas" for x in parcelas):
+            sempre.add("custas_na_base_523")
     if p.area == "civel" and p.juros_civel_pre_14905 == "selic_tema_1368":
         sempre |= {"capitalizacao_selic", "selic_como"}
     if p.area in ("trabalhista", "tributario", "fazenda") and not manuais:
